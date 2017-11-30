@@ -17,7 +17,17 @@ public class ParseTreeInterpreter extends InterpreterBase {
 	int evalExpr(ParseTree ctxx, Environment env) {
 		if (ctxx instanceof ExprContext) {
 			ExprContext ctx = (ExprContext) ctxx;
-			return evalExpr(ctx.addExpr(), env);
+			return evalExpr(ctx.orExpr(), env);
+		} else if (ctxx instanceof AddExprContext) {
+			AddExprContext ctx = (AddExprContext) ctxx;
+			if (ctx.addExpr() == null)
+				return evalExpr(ctx.mulExpr(), env);
+			int lhsValue = evalExpr(ctx.addExpr(), env);
+			int rhsValue = evalExpr(ctx.mulExpr(), env);
+			if (ctx.ADDOP().getText().equals("+"))
+				return lhsValue + rhsValue;
+			else
+				return lhsValue - rhsValue;
 		} else if (ctxx instanceof AddExprContext) {
 			AddExprContext ctx = (AddExprContext) ctxx;
 			if (ctx.addExpr() == null)

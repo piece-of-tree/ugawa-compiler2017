@@ -26,6 +26,20 @@ class ASTNumberNode extends ASTNode {
 	}
 }
 
+
+class ASTUnaryNode extends ASTNode {
+	String op;
+	ASTNode operand;
+	ASTUnaryNode(String op, ASTNode operand) {
+		this.op = op;
+		this.operand = operand;
+	}
+	@Override
+	public String toString() {
+		return "(UnExpr "+op+" "+operand+")";
+	}
+}
+
 class ASTVarRefNode extends ASTNode {
 	String varName;
 	ASTVarRefNode(String varName) {
